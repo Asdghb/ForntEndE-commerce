@@ -21,7 +21,7 @@ import Shippingaddress from "./component/shippingaddress/Shippingaddress";
 import PaymentSuccess from "./component/PaymentSuccess/PaymentSuccess";
 import GetAllOrder from "./component/GetAllOrder/GetAllOrder";
 import Admin from "./Page/Admin/Admin";
-import ConfirmEmail from "./component/ConfirmEmail/ConfirmEmail";
+// import ConfirmEmail from "./component/ConfirmEmail/ConfirmEmail";
 
 function App() {
   let {
@@ -202,7 +202,7 @@ function App() {
                 path="*"
                 element={<NotFoundPage customPath="/Register" />}
               />
-              <Route path="/auth/confirmEmail/:activationCode" element={<ConfirmEmail />} />
+              {/* <Route path="/auth/confirmEmail/:activationCode" element={<ConfirmEmail />} /> */}
             </>
           )}
         </Routes>
