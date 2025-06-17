@@ -20,9 +20,7 @@ import Productdetails from "./Page/Productdetails/Productdetails";
 import Shippingaddress from "./component/shippingaddress/Shippingaddress";
 import PaymentSuccess from "./component/PaymentSuccess/PaymentSuccess";
 import GetAllOrder from "./component/GetAllOrder/GetAllOrder";
-// import SubCategory from "./Page/SubCategory/SubCategory";
 import Admin from "./Page/Admin/Admin";
-import ConfirmEmail from "./component/ConfirmEmail/ConfirmEmail";
 
 function App() {
   let {
@@ -182,10 +180,6 @@ function App() {
                     <Register />
                   </MainLayout>
                 }
-              />
-              <Route
-                path="/auth/confirmEmail/:token"
-                element={<ConfirmEmail />}
               />
               <Route
                 path="/ForgetCode"
