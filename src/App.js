@@ -13,7 +13,7 @@ import Products from "./Page/Products/Products";
 import Categories from "./Page/Categories/Categories";
 import Brands from "./Page/Brands/Brands";
 import Cart from "./Page/Cart/Cart";
-import NotFoundPage from "./component/NotFoundPage/NotFoundPage";
+// import NotFoundPage from "./component/NotFoundPage/NotFoundPage";
 import { useContext, useEffect } from "react";
 import { StoryContext } from "./Context/CounterContext";
 import Productdetails from "./Page/Productdetails/Productdetails";
@@ -170,7 +170,7 @@ function App() {
                   </MainLayout>
                 }
               />
-              <Route path="*" element={<NotFoundPage customPath="/" />} />
+              {/* <Route path="*" element={<NotFoundPage customPath="/" />} /> */}
             </>
           ) : (
             <>
@@ -198,10 +198,10 @@ function App() {
                   </MainLayout>
                 }
               />
-              <Route
+              {/* <Route
                 path="*"
                 element={<NotFoundPage customPath="/Register" />}
-              />
+              /> */}
               {/* <Route path="/auth/confirmEmail/:activationCode" element={<ConfirmEmail />} /> */}
             </>
           )}
