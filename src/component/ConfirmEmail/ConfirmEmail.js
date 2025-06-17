@@ -13,8 +13,9 @@ const ConfirmEmail = () => {
     const activate = async () => {
       try {
         const res = await axios.get(
-          `https://your-backend-domain/api/v1/auth/confirmEmail/${activationCode}`
+          `https://backende-commerce-t418.onrender.com/api/v1/auth/confirmEmail/${activationCode}`
         );
+
         if (res.status === 200) {
           setStatus("success");
           setMessage("تم تفعيل حسابك بنجاح! جاري تحويلك لصفحة تسجيل الدخول...");
