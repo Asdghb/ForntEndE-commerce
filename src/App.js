@@ -22,6 +22,7 @@ import PaymentSuccess from "./component/PaymentSuccess/PaymentSuccess";
 import GetAllOrder from "./component/GetAllOrder/GetAllOrder";
 // import SubCategory from "./Page/SubCategory/SubCategory";
 import Admin from "./Page/Admin/Admin";
+import ConfirmEmail from "./component/ConfirmEmail/ConfirmEmail";
 
 function App() {
   let {
@@ -162,14 +163,6 @@ function App() {
                   </MainLayout>
                 }
               />
-              {/* <Route
-                path="/SubCategory/:id"
-                element={
-                  <MainLayout>
-                    <SubCategory />
-                  </MainLayout>
-                }
-              /> */}
               <Route
                 path="/Productdetails/:id"
                 element={
@@ -190,7 +183,10 @@ function App() {
                   </MainLayout>
                 }
               />
-
+              <Route
+                path="/auth/confirmEmail/:token"
+                element={<ConfirmEmail />}
+              />
               <Route
                 path="/ForgetCode"
                 element={
