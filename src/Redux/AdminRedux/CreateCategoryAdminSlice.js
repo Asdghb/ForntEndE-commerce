@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
+const UrlProgect = process.env.REACT_APP_API_URL;
 
 // Redux/CategorySlice.js
 export const CreateCategory = createAsyncThunk(
@@ -15,7 +16,7 @@ export const CreateCategory = createAsyncThunk(
       formData.append("name", name);
       formData.append("image", image);
 
-      await axios.post("http://localhost:3000/category", formData, {
+      await axios.post(`${UrlProgect}/category`, formData, {
         headers,
       });
 

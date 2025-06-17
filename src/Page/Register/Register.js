@@ -8,12 +8,12 @@ import axios from "axios";
 import { useMutation } from "@tanstack/react-query";
 
 const Register = () => {
-  
+  const UrlProgect = process.env.REACT_APP_API_URL;
   const navigate = useNavigate();
 
   const mutation = useMutation({
     mutationFn: (values) =>
-      axios.post("http://localhost:3000/auth/register", values),
+      axios.post(`${UrlProgect}/auth/register`, values),
     onSuccess: (response) => {
       toast.success(response.data.message);
       setTimeout(() => navigate("/login"), 2000);

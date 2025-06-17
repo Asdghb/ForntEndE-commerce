@@ -8,6 +8,7 @@ import "../../global.css";
 import { StoryContext } from "../../Context/CounterContext";
 
 const Productdetails = () => {
+  const UrlProgect = process.env.REACT_APP_API_URL;
   let { AddToCart } = useContext(StoryContext);
   const { id } = useParams();
   const [reviewContent, setReviewContent] = useState("");
@@ -19,7 +20,7 @@ const Productdetails = () => {
 
   // جلب بيانات المنتج
   const fetchProductDetails = async (id) => {
-    const res = await axios.get(`http://localhost:3000/Product/${id}`);
+    const res = await axios.get(`${UrlProgect}/Product/${id}`);
     return res.data.results;
   };
 
@@ -36,7 +37,7 @@ const Productdetails = () => {
   const addReviewMutation = useMutation({
     mutationFn: async () => {
       const res = await axios.post(
-        "http://localhost:3000/Reviews/AddReview",
+        `${UrlProgect}/Reviews/AddReview`,
         {
           content: reviewContent,
           productId: id,

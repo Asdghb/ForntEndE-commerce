@@ -7,7 +7,7 @@ const FeaturedProducts = ({ data }) => {
   let { AddToCart } = useContext(StoryContext);
 
   async function ProIdToCart(id) {
-    let data = await AddToCart(id);
+    await AddToCart(id);
   }
 
   return (

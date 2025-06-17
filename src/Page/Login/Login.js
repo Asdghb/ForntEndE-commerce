@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useMutation } from "@tanstack/react-query";
@@ -10,11 +10,12 @@ import { StoryContext } from "../../Context/CounterContext";
 import { jwtDecode } from "jwt-decode";
 
 const Login = () => {
+  const UrlProgect = process.env.REACT_APP_API_URL;
+  console.log(process.env.REACT_APP_API_URL, `${UrlProgect}/auth/login`);
   const navigate = useNavigate();
   const { setUserToken, setUserRole } = useContext(StoryContext);
   const mutation = useMutation({
-    mutationFn: (values) =>
-      axios.post("http://localhost:3000/auth/login", values),
+    mutationFn: (values) => axios.post(`${UrlProgect}/auth/login`, values),
     onSuccess: (res) => {
       toast.success(res.data.message);
       localStorage.setItem("UserToken", res.data.results);

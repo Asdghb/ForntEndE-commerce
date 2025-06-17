@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
+const UrlProgect = process.env.REACT_APP_API_URL;
 
 export const DeleteApiCategoryId = createAsyncThunk(
   "DeleteCategoryId/DeleteApiCategoryId",
@@ -9,7 +10,7 @@ export const DeleteApiCategoryId = createAsyncThunk(
         token: `Route__${localStorage.getItem("UserToken")}`,
       };
       const { data } = await axios.delete(
-        `http://localhost:3000/category/${Categoryid}`,
+        `${UrlProgect}/category/${Categoryid}`,
         { headers }
       );
       console.log(data)

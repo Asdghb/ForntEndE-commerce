@@ -8,6 +8,7 @@ import axios from "axios";
 import "react-toastify/dist/ReactToastify.css";
 
 const ResetPassword = () => {
+  const UrlProgect = process.env.REACT_APP_API_URL;
   const navigate = useNavigate();
 
   const validationSchema = Yup.object({
@@ -25,7 +26,7 @@ const ResetPassword = () => {
   const mutation = useMutation({
     mutationFn: async (values) => {
       const response = await axios.patch(
-        "http://localhost:3000/auth/resetPassword",
+        `${UrlProgect}/auth/resetPassword`,
         values
       );
       return response.data;

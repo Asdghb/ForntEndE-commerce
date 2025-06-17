@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
+const UrlProgect = process.env.REACT_APP_API_URL;
 
 export const EditApiCategoryId = createAsyncThunk(
   "EditCategoryId/EditApiCategoryId",
@@ -17,7 +18,7 @@ export const EditApiCategoryId = createAsyncThunk(
       }
 
       const { data } = await axios.patch(
-        `http://localhost:3000/category/${Categoryid}`,
+        `${UrlProgect}/category/${Categoryid}`,
         formData,
         { headers }
       );

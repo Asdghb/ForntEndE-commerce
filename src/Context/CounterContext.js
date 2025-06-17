@@ -1,6 +1,7 @@
 import { createContext, useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
+const UrlProgect = process.env.REACT_APP_API_URL;
 
 export const StoryContext = createContext();
 
@@ -17,7 +18,7 @@ export function StoryContextProvider({ children }) {
 
     return axios
       .post(
-        "http://localhost:3000/Cart/",
+        `${UrlProgect}/Cart/`,
         { productId, quantity: 1 },
         {
           headers: Headers,
@@ -38,7 +39,7 @@ export function StoryContextProvider({ children }) {
       token: `Route__${localStorage.getItem("UserToken")}`,
     };
     return axios
-      .get("http://localhost:3000/Cart/", {
+      .get(`${UrlProgect}/Cart/`, {
         headers: Headers,
       })
       .then((res) => {
@@ -60,11 +61,7 @@ export function StoryContextProvider({ children }) {
     };
 
     return axios
-      .patch(
-        `http://localhost:3000/Cart/${productId}`,
-        {},
-        { headers: Headers }
-      )
+      .patch(`${UrlProgect}/Cart/${productId}`, {}, { headers: Headers })
       .then((res) => {
         return res.data;
       })
@@ -87,7 +84,7 @@ export function StoryContextProvider({ children }) {
 
     return axios
       .patch(
-        `http://localhost:3000/Cart/`,
+        `${UrlProgect}/Cart/`,
         { productId, quantity },
         { headers: headers }
       )
@@ -106,7 +103,7 @@ export function StoryContextProvider({ children }) {
       token: `Route__${localStorage.getItem("UserToken")}`,
     };
     return axios
-      .post("http://localhost:3000/Order", values, { headers })
+      .post(`${UrlProgect}/Order`, values, { headers })
       .then((res) => res.data)
       .catch((err) => {
         console.error("❌ خطأ في إنشاء الطلب:", err);
@@ -119,7 +116,7 @@ export function StoryContextProvider({ children }) {
       token: `Route__${localStorage.getItem("UserToken")}`,
     };
     return axios
-      .patch("http://localhost:3000/Cart/clear", {}, { headers })
+      .patch(`${UrlProgect}/Cart/clear`, {}, { headers })
       .then((res) => res.data)
       .catch((err) => {
         console.error("❌ خطأ في إنشاء الطلب:", err);
@@ -141,7 +138,7 @@ export function StoryContextProvider({ children }) {
         createOrder,
         ClearToCart,
         UserRole,
-       setUserRole,
+        setUserRole,
       }}
     >
       {children}

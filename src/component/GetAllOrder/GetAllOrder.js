@@ -9,6 +9,7 @@ import { Helmet } from "react-helmet-async";
 import "moment/locale/ar";
 
 const GetAllOrder = () => {
+  const UrlProgect = process.env.REACT_APP_API_URL;
   const Dispatch = useDispatch();
   const { orders, IsLoding, IsError } = useSelector(({ Order }) => Order);
 
@@ -18,7 +19,7 @@ const GetAllOrder = () => {
     };
     try {
       const response = await axios.patch(
-        `http://localhost:3000/Order/${id}`,
+        `${UrlProgect}/Order/${id}`,
         {},
         { headers }
       );

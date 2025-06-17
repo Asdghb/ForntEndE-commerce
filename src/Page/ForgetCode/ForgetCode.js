@@ -7,6 +7,7 @@ import { toast } from "react-toastify";
 import axios from "axios";
 
 const ForgetCode = () => {
+  const UrlProgect = process.env.REACT_APP_API_URL;
   const navigate = useNavigate();
 
   const validationSchema = Yup.object({
@@ -18,10 +19,9 @@ const ForgetCode = () => {
   // ✅ طلب الإرسال
   const mutation = useMutation({
     mutationFn: async (email) => {
-      const response = await axios.patch(
-        "http://localhost:3000/auth/forgetCode",
-        { email }
-      );
+      const response = await axios.patch(`${UrlProgect}/auth/forgetCode`, {
+        email,
+      });
       return response.data;
     },
     onSuccess: (data) => {

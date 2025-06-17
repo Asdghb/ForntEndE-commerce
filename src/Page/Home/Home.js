@@ -9,6 +9,7 @@ import axios from "axios";
 import "../../global.css";
 
 const Home = () => {
+  const UrlProgect = process.env.REACT_APP_API_URL;
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -27,8 +28,8 @@ const Home = () => {
       setLoading(true);
       try {
         const [productsRes, categoriesRes] = await Promise.all([
-          axios.get("http://localhost:3000/Product"),
-          axios.get("http://localhost:3000/category/"),
+          axios.get(`${UrlProgect}/Product`),
+          axios.get(`${UrlProgect}/category/`),
         ]);
         setProducts(productsRes.data.results);
         setCategories(categoriesRes.data.results);

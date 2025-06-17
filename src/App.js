@@ -14,13 +14,13 @@ import Categories from "./Page/Categories/Categories";
 import Brands from "./Page/Brands/Brands";
 import Cart from "./Page/Cart/Cart";
 import NotFoundPage from "./component/NotFoundPage/NotFoundPage";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect } from "react";
 import { StoryContext } from "./Context/CounterContext";
 import Productdetails from "./Page/Productdetails/Productdetails";
 import Shippingaddress from "./component/shippingaddress/Shippingaddress";
 import PaymentSuccess from "./component/PaymentSuccess/PaymentSuccess";
 import GetAllOrder from "./component/GetAllOrder/GetAllOrder";
-import SubCategory from "./Page/SubCategory/SubCategory";
+// import SubCategory from "./Page/SubCategory/SubCategory";
 import Admin from "./Page/Admin/Admin";
 
 function App() {

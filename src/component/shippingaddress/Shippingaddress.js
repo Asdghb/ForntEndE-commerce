@@ -9,6 +9,7 @@ import axios from "axios";
 import "react-toastify/dist/ReactToastify.css";
 
 const Shippingaddress = () => {
+  const UrlProgect = process.env.REACT_APP_API_URL;
   const { createOrder } = useContext(StoryContext);
   const [isPending, setisPending] = useState(false);
   const [couponData, setCouponData] = useState(null); // حالة الكوبون
@@ -18,7 +19,7 @@ const Shippingaddress = () => {
   useEffect(() => {
     const fetchCoupon = async () => {
       try {
-        const { data } = await axios.get("http://localhost:3000/Coupon/");
+        const { data } = await axios.get(`${UrlProgect}/Coupon/`);
         if (data.success && data.results.length > 0) {
           setCouponData(data.results[0]);
         }
