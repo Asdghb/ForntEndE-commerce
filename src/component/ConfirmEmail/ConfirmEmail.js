@@ -1,34 +1,42 @@
-import React, { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import React, { useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 const ConfirmEmail = () => {
-  const { activationCode } = useParams();
+  const UrlProgect = process.env.REACT_APP_API_URL
+  const [activationCode, setActivationCode] = useState("");
   const navigate = useNavigate();
-  const [message, setMessage] = useState("جاري تأكيد الحساب...");
 
-  useEffect(() => {
-    const confirmAccount = async () => {
-      try {
-        await axios.get(
-          `${process.env.REACT_APP_API_URL}/auth/confirmEmail/${activationCode}`
-        );
-        setMessage("تم تفعيل حسابك بنجاح ✅، سيتم تحويلك إلى تسجيل الدخول.");
-        toast.success("تم تفعيل الحساب بنجاح");
-        setTimeout(() => navigate("/login"), 3000);
-      } catch (error) {
-        setMessage("الرابط غير صالح أو الحساب مفعّل مسبقًا ❌");
-        toast.error("فشل في تفعيل الحساب");
-      }
-    };
-
-    confirmAccount();
-  }, [activationCode, navigate]);
+  const handleConfirm = async () => {
+    try {
+      const { data } = await axios.post(
+        `${UrlProgect}/auth/confirmEmail`,
+        {
+          activationCode,
+        }
+      );
+      toast.success(data.message);
+      navigate("/login");
+    } catch (error) {
+      toast.error(error.response?.data?.message || "فشل في تفعيل الحساب ❌");
+    }
+  };
 
   return (
-    <div style={{ textAlign: "center", padding: 40 }}>
-      <h2>{message}</h2>
+    <div className="container mt-5 text-center">
+      <h3>تفعيل الحساب</h3>
+      <p>من فضلك أدخل كود التفعيل الذي تم إرساله إلى بريدك الإلكتروني:</p>
+      <input
+        type="text"
+        value={activationCode}
+        onChange={(e) => setActivationCode(e.target.value)}
+        className="form-control w-50 mx-auto"
+        placeholder="ادخل كود التفعيل"
+      />
+      <button className="btn btn-success mt-3" onClick={handleConfirm}>
+        تفعيل
+      </button>
     </div>
   );
 };

@@ -202,7 +202,7 @@ function App() {
                 path="*"
                 element={<NotFoundPage customPath="/Register" />}
               />
-              <Route path="/auth/confirmEmail/:activationCode" element={<ConfirmEmail />} />
+              <Route path="/ConfirmEmail" element={<ConfirmEmail />} />
             </>
           )}
         </Routes>

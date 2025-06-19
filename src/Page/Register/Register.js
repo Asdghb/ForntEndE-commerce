@@ -10,13 +10,12 @@ import { useMutation } from "@tanstack/react-query";
 const Register = () => {
   const UrlProgect = process.env.REACT_APP_API_URL;
   const navigate = useNavigate();
-
   const mutation = useMutation({
     mutationFn: (values) =>
       axios.post(`${UrlProgect}/auth/register`, values),
     onSuccess: (response) => {
       toast.success(response.data.message);
-      setTimeout(() => navigate("/login"), 2000);
+      setTimeout(() => navigate("/ConfirmEmail"), 2000);
     },
     onError: (error) => {
       const message = error.response?.data?.message || "حدث خطأ أثناء التسجيل";
