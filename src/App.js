@@ -13,7 +13,7 @@ import Products from "./Page/Products/Products";
 import Categories from "./Page/Categories/Categories";
 import Brands from "./Page/Brands/Brands";
 import Cart from "./Page/Cart/Cart";
-// import NotFoundPage from "./component/NotFoundPage/NotFoundPage";
+import NotFoundPage from "./component/NotFoundPage/NotFoundPage";
 import { useContext, useEffect } from "react";
 import { StoryContext } from "./Context/CounterContext";
 import Productdetails from "./Page/Productdetails/Productdetails";
@@ -21,7 +21,7 @@ import Shippingaddress from "./component/shippingaddress/Shippingaddress";
 import PaymentSuccess from "./component/PaymentSuccess/PaymentSuccess";
 import GetAllOrder from "./component/GetAllOrder/GetAllOrder";
 import Admin from "./Page/Admin/Admin";
-// import ConfirmEmail from "./component/ConfirmEmail/ConfirmEmail";
+import ConfirmEmail from "./component/ConfirmEmail/ConfirmEmail";
 
 function App() {
   let {
@@ -170,7 +170,7 @@ function App() {
                   </MainLayout>
                 }
               />
-              {/* <Route path="*" element={<NotFoundPage customPath="/" />} /> */}
+              <Route path="*" element={<NotFoundPage customPath="/" />} />
             </>
           ) : (
             <>
@@ -198,11 +198,11 @@ function App() {
                   </MainLayout>
                 }
               />
-              {/* <Route
+              <Route
                 path="*"
                 element={<NotFoundPage customPath="/Register" />}
-              /> */}
-              {/* <Route path="/auth/confirmEmail/:activationCode" element={<ConfirmEmail />} /> */}
+              />
+              <Route path="/auth/confirmEmail/:activationCode" element={<ConfirmEmail />} />
             </>
           )}
         </Routes>
