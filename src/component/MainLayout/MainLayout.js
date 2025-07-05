@@ -1,13 +1,13 @@
 import Navbar from "../Navbar/Navbar";
 import Footer from "../Footer/Footer";
-import { Detector } from "react-detect-offline";
+// import { Detector } from "react-detect-offline";
 
 const MainLayout = ({ children }) => {
   return (
     <>
       <Navbar />
       <main className="flex-grow-1">
-        {/* رسالة تظهر فقط عند انقطاع الاتصال بالسيرفر */}
+        {/* رسالة تظهر فقط عند انقطاع الاتصال بالسيرفر
         <Detector
           polling={{
             url: "https://backende-commerce-t418.onrender.com/ping", // رابط السيرفر الخاص بك
@@ -29,7 +29,8 @@ const MainLayout = ({ children }) => {
               </div>
             )
           }
-        />
+        /> */}
+
         {children}
       </main>
       <Footer />

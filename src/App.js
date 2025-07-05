@@ -22,6 +22,7 @@ import PaymentSuccess from "./component/PaymentSuccess/PaymentSuccess";
 import GetAllOrder from "./component/GetAllOrder/GetAllOrder";
 import Admin from "./Page/Admin/Admin";
 import ConfirmEmail from "./component/ConfirmEmail/ConfirmEmail";
+import { jwtDecode } from "jwt-decode";
 
 function App() {
   let {
@@ -48,14 +49,21 @@ function App() {
   );
 
   useEffect(() => {
-    const UserRole = JSON.parse(localStorage.getItem("RoleUser"));
     const token = localStorage.getItem("UserToken");
-    if (token) {
-      setUserToken(token);
+
+    if (token && typeof token === "string") {
+      try {
+        const decoded = jwtDecode(token);
+        setUserToken(token);
+        if (decoded?.role) {
+          setUserRole(decoded.role);
+        }
+      } catch (error) {
+        console.error("Token decoding failed:", error);
+        localStorage.removeItem("UserToken");
+      }
     }
-    if (UserRole) {
-      setUserRole(UserRole);
-    }
+
     setIsLoading(false);
   }, [setIsLoading, setUserToken, setUserRole]);
 

@@ -7,6 +7,28 @@ body {
   margin: 0;
   padding: 0;
 }
+/* منع انزياح الصفحة عند فتح المودال */
+body.modal-open {
+  overflow: hidden;
+  padding-right: 0 !important;
+}
+
+/* منع الانزلاق الأفقي نهائيًا */
+html,
+body {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  box-sizing: border-box;
+  width: 100%;
+}
+
+/* اجعل كل العناصر تحسب البوكس سايز بشكل صحيح */
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+}
 
 .loader-overlay {
   position: fixed;

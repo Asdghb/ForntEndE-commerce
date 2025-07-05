@@ -1,23 +1,45 @@
-
 .socialicon {
-  background-color: rgba(255, 255, 255, 0.1); 
+  background-color: rgba(255, 255, 255, 0.1);
   padding: 5px;
   border-radius: 50%;
-  box-shadow: 0 0 6px rgba(255, 255, 255, 0.3); 
+  box-shadow: 0 0 6px rgba(255, 255, 255, 0.3);
   transition: transform 0.2s ease;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .socialicon:hover {
-  transform: scale(1.1); 
+  transform: scale(1.1);
   background-color: rgb(171, 157, 157);
+  color: white;
+  text-decoration: none;
 }
 
 .navlinkcustom {
   color: white;
   text-decoration: none;
   font-weight: 500;
-  padding: 0.5rem ;
+  padding: 0.5rem 1rem;
   transition: color 0.3s;
+  display: block;
 }
 
+.navlinkcustom:hover,
+.navlinkcustom:focus {
+  color: #adb5bd; /* لون عند التمرير */
+  text-decoration: none;
+}
 
+/* تحسين عرض الروابط على الشاشات الصغيرة */
+@media (max-width: 767px) {
+  .navlinkcustom {
+    padding: 0.5rem 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .socialicon {
+    padding: 8px;
+  }
+}

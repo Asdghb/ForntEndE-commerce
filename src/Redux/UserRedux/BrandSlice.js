@@ -3,9 +3,7 @@ import axios from "axios";
 const UrlProgect = process.env.REACT_APP_API_URL;
 
 export let getBrand = createAsyncThunk("Brand/getBrand", async () => {
-  let { data } = await axios
-    .get(`${UrlProgect}/Brand/`)
-    .catch((err) => err);
+  let { data } = await axios.get(`${UrlProgect}/Brand/`).catch((err) => err);
   console.log(data.results);
   return data.results;
 });

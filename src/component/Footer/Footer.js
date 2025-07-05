@@ -1,136 +1,88 @@
-import React, { useState } from "react";
-
+import React from "react";
 const Footer = () => {
-  const [email, setEmail] = useState("");
-
-  const handleShare = () => {
-    // هنا يمكنك إضافة منطق إرسال الرابط بالبريد إذا أردت
-    console.log("Email to send:", email);
-
-    // تفريغ الحقل بعد الضغط
-    setEmail("");
-  };
   return (
-    <>
-      {/* <div className="bg-dark mt-5 p-4">
-        <div className="text-center text-white">
-          <h5>Get the FreshCart app</h5>
-          <p>
-            We will send you a link, open it on your phone to download the app
-          </p>
+    <footer className="bg-dark text-white pt-4 pb-3 px-3 px-md-5 mt-1">
+      <div className="container">
+        {/* ✅ Section 1: Payment & Delivery */}
+        <div className="d-flex flex-column flex-md-row justify-content-between align-items-center gap-4 mb-4 border-bottom pb-3">
+          {/* 💳 Payment Partners */}
+          <div className="text-center text-md-start">
+            <p className="mb-2 fw-bold">طرق الدفع المتاحة:</p>
+            <div className="d-flex justify-content-center justify-content-md-start gap-3">
+              <img
+                src="https://www.svgrepo.com/show/508404/amazon-pay.svg"
+                alt="Amazon Pay"
+                width={50}
+              />
+              <img
+                src="https://img.icons8.com/color/48/mastercard-logo.png"
+                alt="Mastercard"
+                width={40}
+              />
+              <img
+                src="https://img.icons8.com/color/48/paypal.png"
+                alt="Paypal"
+                width={40}
+              />
+            </div>
+          </div>
+
+          {/* 📦 Delivery Apps */}
+          <div className="text-center text-md-end">
+            <p className="mb-2 fw-bold">حمّل تطبيق FreshCart الآن:</p>
+            <div className="d-flex justify-content-center justify-content-md-end gap-3">
+              <a href="#!" target="_blank" rel="noopener noreferrer">
+                <img
+                  src="https://img.icons8.com/color/512/apple-app-store--v3.png"
+                  alt="App Store"
+                  width={35}
+                />
+              </a>
+              <a href="#!" target="_blank" rel="noopener noreferrer">
+                <img
+                  src="https://img.icons8.com/color/48/google-play.png"
+                  alt="Google Play"
+                  width={35}
+                />
+              </a>
+            </div>
+          </div>
         </div>
-
-        <div className="d-flex justify-content-center gap-2 mb-3">
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            className="form-control w-50"
-            placeholder="البريد الإلكتروني..."
-          />
-          <button className="btn btn-success" onClick={handleShare}>
-            أرسل الرابط
-          </button>
-        </div>
-
-        <div className="d-flex flex-column flex-md-row justify-content-between align-items-center">
-          <p className="mb-2 mb-md-0 text-white">
-            Payment Partners:
-            <img
-              src="https://www.svgrepo.com/show/508404/amazon-pay.svg"
-              alt="Amazon Pay"
-              width={80}
-              className="mx-2"
-            />
-            <img
-              src="https://img.icons8.com/color/48/mastercard-logo.png"
-              alt="Mastercard"
-              width={40}
-            />
-            <img
-              src="https://img.icons8.com/color/48/paypal.png"
-              alt="Paypal"
-              width={40}
-              className="ms-2"
-            />
+        {/* ✅ Section 2: Legal Links */}
+        <div className="text-center d-flex flex-column flex-md-row justify-content-between align-items-center gap-3">
+          <p className="m-0">
+            &copy; {new Date().getFullYear()} FreshCart. جميع الحقوق محفوظة.
           </p>
 
-          <p className="mb-0 text-white">
-            Get deliveries with FreshCart:
-            <img
-              src="https://img.icons8.com/ios-filled/50/000000/apple-app-store--v1.png"
-              alt="AppStore"
-              width={30}
-              className="mx-2"
-            />
-            <img
-              src="https://img.icons8.com/color/48/google-play.png"
-              alt="GooglePlay"
-              width={30}
-            />
-          </p>
-        </div>
-      </div> */}
-      <div className="bg-dark p-4">
-        <div className="text-center text-white">
-          <h5>Get the FreshCart app</h5>
-          <p>
-            We will send you a link, open it on your phone to download the app
-          </p>
-        </div>
-
-        <div className="d-flex justify-content-center gap-2 mb-3">
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            className="form-control w-50"
-            placeholder="البريد الإلكتروني..."
-          />
-          <button className="btn btn-success" onClick={handleShare}>
-            أرسل الرابط
-          </button>
-        </div>
-
-        <div className="d-flex flex-column flex-md-row justify-content-between align-items-center">
-          <p className="mb-2 mb-md-0 text-white">
-            Payment Partners:
-            <img
-              src="https://www.svgrepo.com/show/508404/amazon-pay.svg"
-              alt="Amazon Pay"
-              width={80}
-              className="mx-2"
-            />
-            <img
-              src="https://img.icons8.com/color/48/mastercard-logo.png"
-              alt="Mastercard"
-              width={40}
-            />
-            <img
-              src="https://img.icons8.com/color/48/paypal.png"
-              alt="Paypal"
-              width={40}
-              className="ms-2"
-            />
-          </p>
-
-          <p className="mb-0 text-white">
-            Get deliveries with FreshCart:
-            <img
-              src="https://img.icons8.com/color/512/apple-app-store--v3.png"
-              alt="AppStore"
-              width={30}
-              className="mx-2"
-            />
-            <img
-              src="https://img.icons8.com/color/48/google-play.png"
-              alt="GooglePlay"
-              width={30}
-            />
-          </p>
+          <div className="d-flex gap-3 flex-wrap justify-content-center">
+            <a
+              href="/privacy-policy"
+              className="text-white text-decoration-none small"
+            >
+              سياسة الخصوصية
+            </a>
+            <a
+              href="/terms-of-use"
+              className="text-white text-decoration-none small"
+            >
+              الشروط والأحكام
+            </a>
+            <a
+              href="/return-policy"
+              className="text-white text-decoration-none small"
+            >
+              سياسة الاسترجاع
+            </a>
+            <a
+              href="/contact"
+              className="text-white text-decoration-none small"
+            >
+              اتصل بنا
+            </a>
+          </div>
         </div>
       </div>
-    </>
+    </footer>
   );
 };
 

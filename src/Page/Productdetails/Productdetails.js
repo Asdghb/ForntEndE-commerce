@@ -6,19 +6,24 @@ import { Card, Carousel, Badge } from "react-bootstrap";
 import { Helmet } from "react-helmet-async";
 import "../../global.css";
 import { StoryContext } from "../../Context/CounterContext";
+import { useNavigate } from "react-router-dom";
 
 const Productdetails = () => {
+  const navigate = useNavigate();
   const UrlProgect = process.env.REACT_APP_API_URL;
-  let { AddToCart } = useContext(StoryContext);
+  const { AddToCart } = useContext(StoryContext);
   const { id } = useParams();
   const [reviewContent, setReviewContent] = useState("");
   const queryClient = useQueryClient();
+
+  const BackPage = () => {
+    navigate(-1);
+  };
 
   async function AddToCart2(id) {
     await AddToCart(id);
   }
 
-  // جلب بيانات المنتج
   const fetchProductDetails = async (id) => {
     const res = await axios.get(`${UrlProgect}/Product/${id}`);
     return res.data.results;
@@ -33,7 +38,6 @@ const Productdetails = () => {
     token: `Route__${localStorage.getItem("UserToken")}`,
   };
 
-  // إرسال تعليق جديد (تم تصحيح الرابط هنا ✅)
   const addReviewMutation = useMutation({
     mutationFn: async () => {
       const res = await axios.post(
@@ -48,7 +52,7 @@ const Productdetails = () => {
     },
     onSuccess: () => {
       setReviewContent("");
-      queryClient.invalidateQueries(["product", id]); // إعادة تحميل بيانات المنتج
+      queryClient.invalidateQueries(["product", id]);
     },
   });
 
@@ -56,11 +60,9 @@ const Productdetails = () => {
     return (
       <div className="loader-overlay">
         <section className="dots-container">
-          <div className="dot"></div>
-          <div className="dot"></div>
-          <div className="dot"></div>
-          <div className="dot"></div>
-          <div className="dot"></div>
+          {[...Array(5)].map((_, i) => (
+            <div key={i} className="dot"></div>
+          ))}
         </section>
       </div>
     );
@@ -90,50 +92,48 @@ const Productdetails = () => {
   return (
     <div className="container py-4">
       <Helmet>
-        <meta charSet="utf-8" />
         <title>{name} 📱</title>
       </Helmet>
-
+      <div className="mb-3">
+        <button className="btn btn-outline-secondary" onClick={BackPage}>
+          ← back
+        </button>
+      </div>
       <h2 className="mb-4 text-center">{name}</h2>
-
-      <div className="row">
-        <div className="col-md-6">
-          {images?.length > 0 ? (
-            <Carousel>
-              {images.map((img) => (
-                <Carousel.Item key={img._id}>
-                  <img
-                    className="d-block w-100"
-                    src={img.url}
-                    alt="product"
-                    style={{
-                      height: "400px",
-                      objectFit: "contain",
-                      backgroundColor: "#f8f9fa",
-                    }}
-                  />
-                </Carousel.Item>
-              ))}
-            </Carousel>
-          ) : (
-            <Card.Img
-              variant="top"
-              src={defaultImage?.url}
-              alt={name}
-              style={{
-                height: "400px",
-                objectFit: "contain",
-                backgroundColor: "#f8f9fa",
-              }}
-            />
-          )}
+      <div className="row gy-4">
+        {/* صور المنتج */}
+        <div className="col-12 col-md-6">
+          <div className="ratio ratio-4x3 bg-light rounded overflow-hidden">
+            {images?.length > 0 ? (
+              <Carousel>
+                {images.map((img) => (
+                  <Carousel.Item key={img._id}>
+                    <img
+                      src={img.url}
+                      alt="product"
+                      className="d-block w-100 img-fluid"
+                      style={{ objectFit: "contain", maxHeight: "400px" }}
+                    />
+                  </Carousel.Item>
+                ))}
+              </Carousel>
+            ) : (
+              <img
+                src={defaultImage?.url}
+                alt={name}
+                className="w-100 img-fluid"
+                style={{ objectFit: "contain", maxHeight: "400px" }}
+              />
+            )}
+          </div>
         </div>
 
-        <div className="col-md-6">
-          <Card className="shadow-sm h-100">
-            <Card.Body>
+        {/* معلومات المنتج */}
+        <div className="col-12 col-md-6">
+          <Card className="shadow-sm w-100 h-100">
+            <Card.Body className="d-flex flex-column">
               <Card.Title>{name}</Card.Title>
-              <Card.Text>{description}</Card.Text>
+              <Card.Text className="mb-2">{description}</Card.Text>
 
               <div className="mb-2">
                 <span className="text-decoration-line-through text-danger me-2">
@@ -145,14 +145,13 @@ const Productdetails = () => {
                 </Badge>
               </div>
 
-              <div className="mb-2">
-                <small>عدد القطع المتوفرة: {availableItems}</small>
-                <br />
-                <small>عدد القطع المباعة: {soldItems}</small>
+              <div className="small mb-3 text-muted">
+                <div>عدد القطع المتوفرة: {availableItems}</div>
+                <div>عدد القطع المباعة: {soldItems}</div>
               </div>
 
               <button
-                className="btn btn-primary mt-3"
+                className="btn btn-primary mt-auto"
                 onClick={() => AddToCart2(id)}
               >
                 أضف إلى السلة
@@ -162,11 +161,11 @@ const Productdetails = () => {
         </div>
       </div>
 
-      {/* قسم التعليقات */}
+      {/* التعليقات */}
       <div className="mt-5">
         <h4 className="mb-3">آراء المستخدمين</h4>
 
-        {/* نموذج إضافة تعليق */}
+        {/* نموذج كتابة تعليق */}
         <div className="mb-4">
           <textarea
             className="form-control"
@@ -190,7 +189,6 @@ const Productdetails = () => {
             <div key={rev._id} className="border p-3 rounded mb-2 bg-light">
               <p className="mb-1">{rev.content}</p>
               <small className="text-muted">
-                تم التعليق في{" "}
                 {new Date(rev.createdAt).toLocaleDateString("ar-EG")}
               </small>
             </div>

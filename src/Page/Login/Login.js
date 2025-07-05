@@ -9,21 +9,21 @@ import "react-toastify/dist/ReactToastify.css";
 import { StoryContext } from "../../Context/CounterContext";
 import { jwtDecode } from "jwt-decode";
 
+import styles from "./Login.module.css";
+
 const Login = () => {
   const UrlProgect = process.env.REACT_APP_API_URL;
-  console.log(process.env.REACT_APP_API_URL, `${UrlProgect}/auth/login`);
   const navigate = useNavigate();
   const { setUserToken, setUserRole } = useContext(StoryContext);
+
   const mutation = useMutation({
     mutationFn: (values) => axios.post(`${UrlProgect}/auth/login`, values),
     onSuccess: (res) => {
       toast.success(res.data.message);
-      localStorage.setItem("UserToken", res.data.results);
+      localStorage.setItem("UserToken", res.data.results); // التوكن
       const decoded = jwtDecode(res.data.results);
-      localStorage.setItem("RoleUser", JSON.stringify(decoded.role));
-      const UserRole = JSON.parse(localStorage.getItem("RoleUser"));
-      if (UserRole) {
-        setUserRole(UserRole);
+      if (decoded) {
+        setUserRole(decoded.role);
       }
       setUserToken(res.data.results);
       navigate("/");
@@ -51,54 +51,54 @@ const Login = () => {
   });
 
   return (
-    <>
-      <div className="container m-5">
-        <div className="text-center mb-4">
-          <h1 className="fw-bold">Login Now :</h1>
-        </div>
+    <div className={styles.container}>
+      <div className={styles.card}>
+        <h1 className={styles.title}>Login Now :</h1>
 
-        <form className="w-75 mx-auto" onSubmit={formik.handleSubmit}>
-          <div className="mb-3">
-            <label htmlFor="email" className="form-label">
+        <form className={styles.form} onSubmit={formik.handleSubmit}>
+          <div className={styles.formGroup}>
+            <label htmlFor="email" className={styles.label}>
               Email :
             </label>
             <input
               type="email"
-              className={`form-control ${
-                formik.touched.email && formik.errors.email ? "is-invalid" : ""
-              }`}
               id="email"
-              {...formik.getFieldProps("email")}
               placeholder="Enter your email"
+              className={`${styles.input} ${
+                formik.touched.email && formik.errors.email
+                  ? styles.invalid
+                  : ""
+              }`}
+              {...formik.getFieldProps("email")}
             />
             {formik.touched.email && formik.errors.email && (
-              <div className="invalid-feedback">{formik.errors.email}</div>
+              <div className={styles.errorMsg}>{formik.errors.email}</div>
             )}
           </div>
 
-          <div className="mb-3">
-            <label htmlFor="password" className="form-label">
+          <div className={styles.formGroup}>
+            <label htmlFor="password" className={styles.label}>
               Password :
             </label>
             <input
               type="password"
-              className={`form-control ${
+              id="password"
+              placeholder="Enter password"
+              className={`${styles.input} ${
                 formik.touched.password && formik.errors.password
-                  ? "is-invalid"
+                  ? styles.invalid
                   : ""
               }`}
-              id="password"
               {...formik.getFieldProps("password")}
-              placeholder="Enter password"
             />
             {formik.touched.password && formik.errors.password && (
-              <div className="invalid-feedback">{formik.errors.password}</div>
+              <div className={styles.errorMsg}>{formik.errors.password}</div>
             )}
           </div>
 
           <button
             type="submit"
-            className="btn btn-success w-100 d-flex justify-content-center align-items-center"
+            className={styles.submitBtn}
             disabled={mutation.isPending}
           >
             {mutation.isPending ? (
@@ -116,16 +116,22 @@ const Login = () => {
           </button>
         </form>
 
-        <div className="mt-4 d-flex justify-content-center gap-3">
-          <Link to="/Register" className="btn btn-outline-primary px-4">
+        <div className={styles.btnGroup}>
+          <Link
+            to="/Register"
+            className={`${styles.linkBtn} ${styles.primary}`}
+          >
             إنشاء حساب
           </Link>
-          <Link to="/ForgetCode" className="btn btn-outline-danger px-4">
+          <Link
+            to="/ForgetCode"
+            className={`${styles.linkBtn} ${styles.danger}`}
+          >
             إعادة تعيين كلمة المرور
           </Link>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

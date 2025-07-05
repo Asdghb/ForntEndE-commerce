@@ -1,0 +1,172 @@
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 70vh;
+  padding: 20px;
+  background-color: #f8f9fa;
+}
+
+.card {
+  background-color: #fff;
+  padding: 30px;
+  border-radius: 12px;
+  width: 100%;
+  max-width: 500px;
+  min-width: 280px;
+  box-shadow: 0 5px 25px rgb(0, 0, 0);
+  transition: all 0.3s ease-in-out;
+}
+
+.title {
+  text-align: center;
+  font-size: 28px;
+  font-weight: bold;
+  color: #007bff;
+  margin-bottom: 25px;
+}
+
+.formGroup {
+  margin-bottom: 1.25rem;
+}
+
+.label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: #222;
+}
+
+.input {
+  width: 100%;
+  padding: 12px 14px;
+  font-size: 15px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  transition: border-color 0.3s;
+}
+
+.input:focus {
+  border-color: #007bff;
+  outline: none;
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+.invalid {
+  border-color: #dc3545;
+}
+
+.errorMsg {
+  color: #dc3545;
+  font-size: 13px;
+  margin-top: 4px;
+}
+
+.submitBtn {
+  width: 100%;
+  padding: 12px;
+  font-weight: bold;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 16px;
+  background-color: #198754;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.submitBtn:disabled {
+  background-color: #6c757d;
+  cursor: not-allowed;
+}
+
+.btnGroup {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.linkBtn {
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.2s ease-in-out;
+  border: 2px solid transparent;
+}
+
+.linkBtn.primary {
+  color: #0d6efd;
+  border-color: #0d6efd;
+}
+
+.linkBtn.primary:hover {
+  background-color: #0d6efd;
+  color: white;
+}
+
+.linkBtn.danger {
+  color: #dc3545;
+  border-color: #dc3545;
+}
+
+.linkBtn.danger:hover {
+  background-color: #dc3545;
+  color: white;
+}
+
+/* ✅ Responsive tweaks */
+@media (max-width: 576px) {
+  .card {
+    padding: 20px;
+  }
+
+  .title {
+    font-size: 24px;
+  }
+
+  .input {
+    font-size: 14px;
+  }
+
+  .submitBtn {
+    font-size: 15px;
+  }
+
+  .linkBtn {
+    width: 100%;
+    text-align: center;
+  }
+
+  .btnGroup {
+    flex-direction: column;
+  }
+}
+
+@media (min-width: 1000px) {
+  .card {
+    max-width: 1600px;
+    padding: 40px;
+  }
+
+  .title {
+    font-size: 32px;
+  }
+
+  .submitBtn {
+    font-size: 18px;
+  }
+
+  .input {
+    font-size: 1.1rem;
+  }
+
+  .linkBtn {
+    font-size: 1rem;
+  }
+}

@@ -102,12 +102,14 @@ const Category = () => {
           {IsLoading ? "جاري الإرسال..." : "Create Category"}
         </button>
       </form>
-
-      {/* <ToastContainer position="top-right" autoClose={3000} /> */}
       <hr></hr>
-      <Link to="/admin/GetAllCategoryAdmin">
-        <Button className="btn">All Category</Button>
-      </Link>
+      <div className="col-12 text-center mt-3">
+        <Link to="/admin/GetAllCategoryAdmin">
+          <Button variant="outline-primary" className="px-4">
+            All Category
+          </Button>
+        </Link>
+      </div>
     </div>
   );
 };

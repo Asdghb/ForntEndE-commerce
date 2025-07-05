@@ -4,10 +4,13 @@ import { Card, Button } from "react-bootstrap";
 
 const PaymentSuccess = () => {
   return (
-    <div className="d-flex justify-content-center align-items-center vh-100 bg-light">
+    <div
+      className="d-flex justify-content-center align-items-center bg-light"
+      style={{ minHeight: "50vh", padding: "1rem" }}
+    >
       <Card
-        className="text-center shadow p-4 rounded"
-        style={{ maxWidth: "400px" }}
+        className="text-center shadow p-3 rounded w-100"
+        style={{ maxWidth: "360px" }}
       >
         <Card.Body>
           <h2 className="text-success mb-3">✅ تمت عملية الدفع بنجاح</h2>
@@ -15,7 +18,9 @@ const PaymentSuccess = () => {
             شكرًا لك! لقد تم تأكيد طلبك بنجاح. سيتم التواصل معك قريبًا.
           </p>
           <Link to="/">
-            <Button variant="success">العودة إلى الصفحة الرئيسية</Button>
+            <Button variant="success" className="w-100">
+              العودة إلى الصفحة الرئيسية
+            </Button>
           </Link>
         </Card.Body>
       </Card>

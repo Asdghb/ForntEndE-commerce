@@ -17,6 +17,7 @@ const ConfirmEmail = () => {
         }
       );
       toast.success(data.message);
+      console.log(data.message)
       navigate("/login");
     } catch (error) {
       toast.error(error.response?.data?.message || "فشل في تفعيل الحساب ❌");

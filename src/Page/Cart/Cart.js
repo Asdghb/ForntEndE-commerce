@@ -5,12 +5,18 @@ import { Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import { Helmet } from "react-helmet-async";
+import { useNavigate } from "react-router-dom";
 
 const Cart = () => {
+  const navigate = useNavigate();
   const { GetCartItems, RemoveCartItems, UpdateCartItems, ClearToCart } =
     useContext(StoryContext);
   const [Cart, setCart] = useState([]);
   const [loading, setLoading] = useState(true);
+
+  const BackPage = () => {
+    navigate(-1);
+  };
 
   async function deleteCartItems(productId) {
     setLoading(true);
@@ -94,7 +100,16 @@ const Cart = () => {
           <title>My Cart</title>
           <meta name="description" content="عربتك فارغة، أضف بعض المنتجات." />
         </Helmet>
+
         <h4 className="text-center mt-5">لا توجد منتجات في العربة.</h4>
+
+        <div className="text-center mt-3">
+          <Link to="/">
+            <Button variant="primary" className="px-4 py-2 rounded-pill shadow">
+               تسوق الآن
+            </Button>
+          </Link>
+        </div>
       </>
     );
   }
@@ -109,7 +124,16 @@ const Cart = () => {
         />
       </Helmet>
 
-      <div className="container m-5">
+      <div className="container my-5">
+        <div className="mb-3">
+          <button
+            className="btn btn-outline-secondary d-inline-flex align-items-center"
+            onClick={BackPage}
+          >
+            <span className="me-2">←</span> back
+          </button>
+        </div>
+
         <h1 className="mb-4 text-primary fw-bold text-start">My Cart</h1>
 
         <div className="d-flex justify-content-between align-items-center mb-3 flex-wrap">
@@ -138,18 +162,17 @@ const Cart = () => {
           return (
             <div
               key={index}
-              className="d-flex align-items-center justify-content-between border rounded-4 p-3 mb-4 shadow-sm flex-wrap bg-light"
+              className="d-flex flex-column flex-md-row justify-content-between border rounded-4 p-3 mb-4 shadow-sm bg-light"
             >
-              <div className="d-flex align-items-center flex-grow-1">
+              <div className="d-flex flex-column flex-md-row align-items-center flex-grow-1 text-center text-md-start">
                 <img
                   src={product.defaultImage?.url}
                   alt={product.name}
+                  className="img-fluid mb-3 mb-md-0 me-md-4 rounded shadow"
                   style={{
                     maxWidth: "150px",
                     maxHeight: "150px",
-                    borderRadius: "12px",
-                    marginRight: "20px",
-                    boxShadow: "0 2px 6px rgba(0,0,0,0.2)",
+                    objectFit: "contain",
                   }}
                 />
                 <div>
@@ -200,7 +223,7 @@ const Cart = () => {
         <div className="text-center mt-5">
           <Link
             to="/shippingaddress"
-            className="btn btn-primary btn-lg px-5 py-3 rounded-pill shadow"
+            className="btn btn-primary btn-lg w-100 w-md-auto px-4 py-3 rounded-pill shadow"
           >
             💳 متابعة الشراء
           </Link>

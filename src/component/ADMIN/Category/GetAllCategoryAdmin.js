@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getCategory } from "../../../Redux/AdminRedux/GetAllCategoryAdminSlice";
+import { EditApiCategoryId } from "../../../Redux/AdminRedux/EditCategoryAdminSlice";
 import { DeleteApiCategoryId } from "../../../Redux/AdminRedux/DeleteCategoryAdminSlice";
+import { Formik, Form, Field, ErrorMessage } from "formik";
+import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import * as Yup from "yup";
-import { Formik, Form, Field, ErrorMessage } from "formik";
-import { EditApiCategoryId } from "../../../Redux/AdminRedux/EditCategoryAdminSlice";
 
 const GetAllCategoryAdmin = () => {
   const dispatch = useDispatch();
@@ -13,11 +14,18 @@ const GetAllCategoryAdmin = () => {
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [editMode, seteditMode] = useState(null);
   const itemsPerPage = 18;
+  const navigate = useNavigate();
+
+  const handleGoBack = () => {
+    navigate(-1);
+  };
 
   // Get Category
   const { Categorys, IsLoding, IsError } = useSelector(
     (state) => state.AllCategorys
   );
+
+  console.log( "Categorys :",Categorys)
 
   // Delete Category
   const { IsLoding: isLoadingDelete, IsError: isErrorDelete } = useSelector(
@@ -25,7 +33,7 @@ const GetAllCategoryAdmin = () => {
   );
 
   // Edit Category
-  const {  IsError: isErrorEdit } = useSelector(
+  const { IsError: isErrorEdit } = useSelector(
     (state) => state.EditCategoryError
   );
 
@@ -111,7 +119,15 @@ const GetAllCategoryAdmin = () => {
 
   return (
     <div className="container py-4">
-      <h2 className="fw-bold mb-4 text-primary fs-4">📁 All Categories</h2>
+      {/* رأس الصفحة */}
+      <div className="d-flex justify-content-between align-items-center mb-4">
+        <button className="btn btn-outline-secondary" onClick={handleGoBack}>
+          ← back
+        </button>
+        <h2 className="fw-bold text-primary fs-4 m-0">📁 جميع التصنيفات</h2>
+      </div>
+
+      {/* عرض التصنيفات */}
       <div className="row g-3">
         {currentItems.length > 0 ? (
           currentItems.map((cat, index) => (
@@ -121,35 +137,33 @@ const GetAllCategoryAdmin = () => {
               onClick={() => handleItemClick(cat)}
               style={{ cursor: "pointer" }}
             >
-              <div className="card h-100 shadow-sm p-1 border-0">
+              <div className="card h-100 shadow-sm p-2 border-0 text-center">
                 <img
                   src={cat.image?.url}
-                  className="card-img-top"
                   alt={cat.name}
+                  className="img-fluid mb-2"
                   style={{
                     height: "100px",
                     objectFit: "contain",
-                    background: "#fff",
-                    borderRadius: "8px",
+                    background: "#f8f9fa",
+                    borderRadius: "10px",
                   }}
                 />
-                <div className="card-body p-2 text-center">
-                  <h6
-                    className="card-title fw-semibold mb-0"
-                    style={{ fontSize: "14px" }}
-                  >
-                    {cat.name}
-                  </h6>
-                </div>
+                <h6
+                  className="fw-semibold text-dark"
+                  style={{ fontSize: "14px" }}
+                >
+                  {cat.name}
+                </h6>
               </div>
             </div>
           ))
         ) : (
-          <p className="text-muted">لا توجد تصنيفات بعد.</p>
+          <p className="text-muted text-center">لا توجد تصنيفات بعد.</p>
         )}
       </div>
 
-      {/* Pagination Controls */}
+      {/* ✅ Pagination */}
       {totalPages > 1 && (
         <div className="d-flex justify-content-center align-items-center gap-3 mt-4">
           <button
@@ -172,21 +186,17 @@ const GetAllCategoryAdmin = () => {
         </div>
       )}
 
-      {/* ✅ Modal */}
-      {selectedCategory && (
+      {/* ✅ Modal حذف/تعديل */}
+      {selectedCategory && !editMode && (
         <div
           className="modal d-block"
-          tabIndex="-1"
-          style={{
-            backgroundColor: "rgba(0,0,0,0.5)",
-          }}
+          style={{ backgroundColor: "rgba(0,0,0,0.5)" }}
         >
           <div className="modal-dialog modal-dialog-centered">
-            <div className="modal-content">
+            <div className="modal-content shadow">
               <div className="modal-header">
                 <h5 className="modal-title">إدارة التصنيف</h5>
                 <button
-                  type="button"
                   className="btn-close"
                   onClick={handleCloseModal}
                 ></button>
@@ -195,6 +205,7 @@ const GetAllCategoryAdmin = () => {
                 <p>
                   هل تريد تعديل أو حذف التصنيف:{" "}
                   <strong>{selectedCategory.name}</strong>؟
+                  <p><h5>id Category:</h5>{selectedCategory.id}</p>
                 </p>
               </div>
               <div className="modal-footer">
@@ -220,23 +231,21 @@ const GetAllCategoryAdmin = () => {
         </div>
       )}
 
-      {/* edit category */}
+      {/* ✅ Modal التعديل */}
       {editMode && (
         <div
           className="modal d-block"
           style={{ backgroundColor: "rgba(0,0,0,0.5)" }}
         >
           <div className="modal-dialog modal-dialog-centered">
-            <div className="modal-content">
+            <div className="modal-content shadow">
               <div className="modal-header">
                 <h5 className="modal-title">تعديل التصنيف</h5>
                 <button
-                  type="button"
                   className="btn-close"
                   onClick={() => seteditMode(false)}
                 ></button>
               </div>
-
               <Formik
                 initialValues={{
                   name: selectedCategory?.name || "",
@@ -253,21 +262,14 @@ const GetAllCategoryAdmin = () => {
                       "يجب أن تكون الصورة (jpg, jpeg, png)",
                       (value) =>
                         !value ||
-                        (value &&
-                          ["image/jpeg", "image/jpg", "image/png"].includes(
-                            value.type
-                          ))
+                        ["image/jpeg", "image/jpg", "image/png"].includes(
+                          value?.type
+                        )
                     ),
                 })}
                 onSubmit={async (values, { setSubmitting, resetForm }) => {
                   try {
-                    const formData = new FormData();
-                    formData.append("name", values.name);
-                    if (values.image) {
-                      formData.append("image", values.image);
-                    }
-
-                    let resolt = await dispatch(
+                    const result = await dispatch(
                       EditApiCategoryId({
                         Categoryid: selectedCategory._id,
                         name: values.name,
@@ -275,7 +277,7 @@ const GetAllCategoryAdmin = () => {
                       })
                     ).unwrap();
 
-                    toast.success(resolt?.message || "تم التعديل بنجاح");
+                    toast.success(result?.message || "تم التعديل بنجاح");
                     dispatch(getCategory());
                     seteditMode(false);
                     setSelectedCategory(null);
@@ -304,15 +306,14 @@ const GetAllCategoryAdmin = () => {
                           className="text-danger mt-1"
                         />
                       </div>
-
                       <div className="mb-3">
                         <label className="form-label">الصورة (اختياري)</label>
                         <input
                           type="file"
                           className="form-control"
-                          onChange={(e) => {
-                            setFieldValue("image", e.currentTarget.files[0]);
-                          }}
+                          onChange={(e) =>
+                            setFieldValue("image", e.currentTarget.files[0])
+                          }
                         />
                         <ErrorMessage
                           name="image"
@@ -344,7 +345,6 @@ const GetAllCategoryAdmin = () => {
           </div>
         </div>
       )}
-      
     </div>
   );
 };

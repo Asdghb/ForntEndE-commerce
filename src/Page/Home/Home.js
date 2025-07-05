@@ -1,50 +1,47 @@
-// ✅ Home.js
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import FeaturedProducts from "../../component/FeaturedProducts/FeaturedProducts";
-import MainSlider from "../../component/MainSlider/MainSlider";
 import CategorysSlider2 from "../../component/MainSlider/CategorysSlider2";
+import { getProduct } from "../../Redux/UserRedux/GetAllProductSlice";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCartShopping } from "@fortawesome/free-solid-svg-icons";
+import MainSlider from "../../component/MainSlider/MainSlider";
+import { useDispatch, useSelector } from "react-redux";
+import "bootstrap/dist/css/bootstrap.min.css";
 import { Helmet } from "react-helmet-async";
-// import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import { Link } from "react-router-dom";
 import "../../global.css";
+import axios from "axios";
+const UrlProgect = process.env.REACT_APP_API_URL;
 
 const Home = () => {
-  const UrlProgect = process.env.REACT_APP_API_URL;
-  const [products, setProducts] = useState([]);
-  const [categories, setCategories] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const dispatch = useDispatch();
 
-  // const navigate = useNavigate();
+  const { Products, IsLoding, IsError } = useSelector(
+    (state) => state.GetAllProducts
+  );
 
-  // const handleCategoryClick = (category) => {
-  //   navigate(`/SubCategory/${category._id}`, {
-  //     state: { subcategories: category.subcategoryid },
-  //   });
-  // };
+  const [categories, setCategories] = React.useState([]);
+  const [catError, setCatError] = React.useState(null);
 
   useEffect(() => {
-    const fetchData = async () => {
-      setLoading(true);
+    dispatch(getProduct());
+  }, [dispatch]);
+
+  useEffect(() => {
+    const fetchCategories = async () => {
       try {
-        const [productsRes, categoriesRes] = await Promise.all([
-          axios.get(`${UrlProgect}/Product`),
-          axios.get(`${UrlProgect}/category/`),
-        ]);
-        setProducts(productsRes.data.results);
-        setCategories(categoriesRes.data.results);
-        setError(null);
+        const res = await axios.get(`${UrlProgect}/category/`);
+        setCategories(res.data.results);
+        setCatError(null);
       } catch (err) {
         console.error(err);
-        setError("حدث خطأ أثناء تحميل البيانات.");
-      } finally {
-        setLoading(false);
+        setCatError("حدث خطأ أثناء تحميل التصنيفات.");
       }
     };
-    fetchData();
+    fetchCategories();
   }, []);
 
-  if (loading) {
+  if (IsLoding) {
     return (
       <div className="loader-overlay">
         <section className="dots-container">
@@ -58,8 +55,8 @@ const Home = () => {
     );
   }
 
-  if (error) {
-    return <div className="text-center text-danger">{error}</div>;
+  if (IsError || catError) {
+    return <div className="text-center text-danger">{IsError || catError}</div>;
   }
 
   return (
@@ -68,13 +65,26 @@ const Home = () => {
         <meta charSet="utf-8" />
         <title>My Home</title>
       </Helmet>
-      <MainSlider />
-      <CategorysSlider2
-        data={categories}
-        // onCategoryClick={handleCategoryClick}
-      />
 
-      <FeaturedProducts data={products} />
+      <Link
+        to="/cart"
+        className="position-fixed end-0 me-3 bg-success text-white rounded-circle d-flex justify-content-center align-items-center shadow"
+        style={{
+          width: "50px",
+          height: "50px",
+          zIndex: 1050,
+          fontSize: "22px",
+          textDecoration: "none",
+          bottom: "20px",
+        }}
+        title="اذهب إلى العربة"
+      >
+        <FontAwesomeIcon icon={faCartShopping} />
+      </Link>
+
+      <MainSlider />
+      <CategorysSlider2 data={categories} />
+      <FeaturedProducts data={Products} />
     </div>
   );
 };

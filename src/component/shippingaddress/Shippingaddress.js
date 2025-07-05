@@ -9,19 +9,26 @@ import axios from "axios";
 import "react-toastify/dist/ReactToastify.css";
 
 const Shippingaddress = () => {
+  const navigate = useNavigate();
   const UrlProgect = process.env.REACT_APP_API_URL;
   const { createOrder } = useContext(StoryContext);
   const [isPending, setisPending] = useState(false);
-  const [couponData, setCouponData] = useState(null); // حالة الكوبون
-  const navigate = useNavigate();
+  const [couponData, setCouponData] = useState(null);
 
-  // 🟡 جلب الكوبون عند تحميل الصفحة
+  const BackPage = () => {
+    navigate(-1);
+  };
+
   useEffect(() => {
     const fetchCoupon = async () => {
       try {
-        const { data } = await axios.get(`${UrlProgect}/Coupon/`);
-        if (data.success && data.results.length > 0) {
-          setCouponData(data.results[0]);
+        const { data } = await axios.get(`${UrlProgect}/Coupon/valids`, {
+          headers: {
+            token: `Route__${localStorage.getItem("UserToken")}`,
+          },
+        });
+        if (data.success && data.result) {
+          setCouponData(data.result);
         }
       } catch (error) {
         console.error("فشل في جلب بيانات الكوبون", error);
@@ -69,86 +76,104 @@ const Shippingaddress = () => {
   });
 
   return (
-    <div className="container m-5">
-      <h2 className="mb-4 text-center text-primary">📦 Shipping address</h2>
+    <div className="container my-5">
+      <div className="mb-3">
+        <button
+          className="btn btn-outline-secondary d-inline-flex align-items-center"
+          onClick={BackPage}
+        >
+          <span className="me-2">←</span> back
+        </button>
+      </div>
 
-      {/* ✅ عرض بيانات الكوبون إن وُجد */}
-      {couponData && (
-        <div className="alert alert-success text-center">
-          <strong>: كوبون متاح {couponData.discount}%  خصم{" "} <h2> {couponData.name} </h2> </strong>    
-        </div>
-      )}
+      <div className="row justify-content-center">
+        <div className="col-12 col-md-10 col-lg-8">
+          <h2 className="mb-4 text-center text-primary">📦 عنوان الشحن</h2>
 
-      <Form
-        onSubmit={formik.handleSubmit}
-        className="shadow p-4 rounded bg-light"
-      >
-        <Form.Group className="mb-3">
-          <Form.Label>العنوان</Form.Label>
-          <Form.Control
-            type="text"
-            name="address"
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            value={formik.values.address}
-            isInvalid={formik.touched.address && formik.errors.address}
-          />
-          <Form.Control.Feedback type="invalid">
-            {formik.errors.address}
-          </Form.Control.Feedback>
-        </Form.Group>
+          {/* ✅ عرض بيانات الكوبون إن وُجد */}
+          {couponData && (
+            <div className="alert alert-success text-center">
+              <strong>
+                🎁 كوبون متاح - خصم {couponData.discount}% على الطلب! <br />
+                <span className="h4 mt-2 d-inline-block">
+                  {couponData.name}
+                </span>
+              </strong>
+            </div>
+          )}
 
-        <Form.Group className="mb-3">
-          <Form.Label>رقم الهاتف</Form.Label>
-          <Form.Control
-            type="text"
-            name="phone"
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            value={formik.values.phone}
-            isInvalid={formik.touched.phone && formik.errors.phone}
-          />
-          <Form.Control.Feedback type="invalid">
-            {formik.errors.phone}
-          </Form.Control.Feedback>
-        </Form.Group>
-
-        <Form.Group className="mb-3">
-          <Form.Label>كوبون الخصم</Form.Label>
-          <Form.Control
-            type="text"
-            name="coupon"
-            onChange={formik.handleChange}
-            value={formik.values.coupon}
-            placeholder={couponData?.name || "أدخل الكوبون (إن وجد)"}
-          />
-        </Form.Group>
-
-        <Form.Group className="mb-4">
-          <Form.Label>طريقة الدفع</Form.Label>
-          <Form.Select
-            name="payment"
-            onChange={formik.handleChange}
-            value={formik.values.payment}
+          <Form
+            onSubmit={formik.handleSubmit}
+            className="shadow p-4 rounded bg-light"
           >
-            <option value="cash">الدفع نقدًا</option>
-            <option value="visa">الدفع أونلاين</option>
-          </Form.Select>
-        </Form.Group>
+            <Form.Group className="mb-3">
+              <Form.Label>العنوان</Form.Label>
+              <Form.Control
+                type="text"
+                name="address"
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                value={formik.values.address}
+                isInvalid={formik.touched.address && formik.errors.address}
+              />
+              <Form.Control.Feedback type="invalid">
+                {formik.errors.address}
+              </Form.Control.Feedback>
+            </Form.Group>
 
-        <div className="text-center">
-          <Button variant="primary" type="submit" disabled={isPending}>
-            {isPending ? (
-              <>
-                <Spinner size="sm" animation="border" className="me-2" />
-                جارٍ إرسال الطلب...
-              </>
-            ) : (
-              "تأكيد الطلب"
-            )}
-          </Button>
+            <Form.Group className="mb-3">
+              <Form.Label>رقم الهاتف</Form.Label>
+              <Form.Control
+                type="text"
+                name="phone"
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                value={formik.values.phone}
+                isInvalid={formik.touched.phone && formik.errors.phone}
+              />
+              <Form.Control.Feedback type="invalid">
+                {formik.errors.phone}
+              </Form.Control.Feedback>
+            </Form.Group>
+
+            <Form.Group className="mb-3">
+              <Form.Label>كوبون الخصم</Form.Label>
+              <Form.Control
+                type="text"
+                name="coupon"
+                onChange={formik.handleChange}
+                value={formik.values.coupon}
+                placeholder={formik.values.coupon|| "أدخل الكوبون (إن وجد)"}
+              />
+            </Form.Group>
+
+            <Form.Group className="mb-4">
+              <Form.Label>طريقة الدفع</Form.Label>
+              <Form.Select
+                name="payment"
+                onChange={formik.handleChange}
+                value={formik.values.payment}
+              >
+                <option value="cash">الدفع نقدًا</option>
+                <option value="visa">الدفع أونلاين</option>
+              </Form.Select>
+            </Form.Group>
+
+            <div className="text-center">
+              <Button variant="primary" type="submit" disabled={isPending}>
+                {isPending ? (
+                  <>
+                    <Spinner size="sm" animation="border" className="me-2" />
+                    جارٍ إرسال الطلب...
+                  </>
+                ) : (
+                  "تأكيد الطلب"
+                )}
+              </Button>
+            </div>
+          </Form>
         </div>
-      </Form>
+      </div>
     </div>
   );
 };

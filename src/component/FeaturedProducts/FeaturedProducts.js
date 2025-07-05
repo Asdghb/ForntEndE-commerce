@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { StoryContext } from "../../Context/CounterContext";
 
 const FeaturedProducts = ({ data }) => {
-  let { AddToCart } = useContext(StoryContext);
+  const { AddToCart } = useContext(StoryContext);
 
   async function ProIdToCart(id) {
     await AddToCart(id);
@@ -12,32 +12,38 @@ const FeaturedProducts = ({ data }) => {
 
   return (
     <div className="container py-4">
-      <div className="flex justify-start items-start">
-        <h1 className="p-1">Product</h1>
+      <div className="mb-3">
+        <h2 className="fw-bold">Product</h2>
       </div>
+
       <div className="row">
         {data?.map((product) => (
-          <div className="col-sm-6 col-md-4 col-lg-3 mb-4" key={product._id}>
-            <Card className="h-100 shadow-sm d-flex flex-column">
+          <div
+            className="col-12 col-sm-6 col-md-4 col-lg-3 d-flex"
+            key={product._id}
+          >
+            <Card className="shadow-sm w-100 d-flex flex-column mb-4">
               <Link
                 to={`/Productdetails/${product._id}`}
-                style={{ textDecoration: "none", color: "inherit" }}
+                className="text-decoration-none text-dark"
               >
                 <Card.Img
                   variant="top"
                   src={product.defaultImage?.url}
                   alt={product.name}
                   style={{
-                    height: "180px",
+                    height: "200px",
                     objectFit: "contain",
                     backgroundColor: "#f8f9fa",
+                    padding: "10px",
                   }}
                 />
-                <Card.Body style={{ fontSize: "0.9rem" }}>
+                <Card.Body className="d-flex flex-column">
                   <Card.Title className="fs-6">{product.name}</Card.Title>
-                  <Card.Text className="text-muted mb-1 text-truncate">
+                  <Card.Text className="text-muted mb-2 text-truncate">
                     {product.description}
                   </Card.Text>
+
                   <div className="mb-2">
                     <span className="text-decoration-line-through text-danger me-2">
                       {product.price}$
@@ -46,12 +52,14 @@ const FeaturedProducts = ({ data }) => {
                       {product.finalPrice}$
                     </span>
                   </div>
-                  <div className="small">
+
+                  <div className="small text-muted mb-2">
                     <div>المتوفر: {product.availableItems}</div>
                     <div>تم البيع: {product.soldItems}</div>
                   </div>
                 </Card.Body>
               </Link>
+
               <div className="px-3 pb-3 mt-auto">
                 <Button
                   onClick={() => ProIdToCart(product.id)}
